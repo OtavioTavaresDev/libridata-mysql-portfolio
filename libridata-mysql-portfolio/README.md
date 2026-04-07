@@ -79,3 +79,12 @@ Example:
 ```sql
 CREATE INDEX idx_loans_user_id ON loans(user_id);
 CREATE INDEX idx_loans_due_date ON loans(due_date);
+
+## How to Run
+
+1. Run schema.sql to create the database
+2. Run seed.sql to insert sample data
+3. Run queries from queries/analytics.sql
+4. Optional:
+   - Run triggers.sql
+   - Run views.sql
