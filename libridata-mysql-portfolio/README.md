@@ -1,45 +1,81 @@
-# LibriData – Sistema de Gerenciamento de Biblioteca em MySQL
+# Libridata – MySQL Library Management System
 
-![MySQL](https://img.shields.io/badge/MySQL-8.0+-blue?logo=mysql)
-![MariaDB](https://img.shields.io/badge/MariaDB-10.6+-brown?logo=mariadb)
-![License](https://img.shields.io/badge/license-MIT-green)
+## Overview
+Libridata is a relational database project designed to simulate a real-world library system.  
+The goal is to demonstrate strong skills in **data modeling, normalization, query optimization, and business logic implementation using MySQL**.
 
-**Banco de dados relacional completo para controle de acervo, membros e empréstimos de uma biblioteca.**
-
-Projeto desenvolvido para demonstrar proficiência em **modelagem de dados**, **integridade transacional** e **automação de processos via SQL** (Stored Procedures, Views, Triggers).
-
----
-
-## 📌 Funcionalidades Principais
-
-- ✅ Cadastro de livros, autores, editoras e membros.
-- ✅ Controle de empréstimos com **cálculo automático de data de devolução** (`GENERATED COLUMN`).
-- ✅ Atualização automática de `available_copies` via **procedures transacionais**.
-- ✅ **Views** para relatórios gerenciais (empréstimos ativos, atrasos, estatísticas).
-- ✅ **Triggers** para validação de regras de negócio (membro suspenso, penalidade por atraso).
-- ✅ **Script de deploy** pronto para reconstruir o ambiente.
+This project goes beyond basic CRUD operations by focusing on:
+- Data integrity
+- Real-world constraints
+- Analytical queries
+- Performance optimization
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Problem Statement
+Traditional small library systems often lack:
+- Historical tracking of loans
+- Fine-grained control over inventory
+- Analytical insights (usage patterns, delays, etc.)
 
-- **MySQL / MariaDB** (compatível com ambos)
-- SQL Avançado:
-  - DDL (Constraints, Foreign Keys, Check, Generated Columns)
-  - DML (Inserções, atualizações)
-  - **Stored Procedures** com `TRANSACTION`
-  - **Views** complexas com `GROUP_CONCAT`
-  - **Triggers** (BEFORE/AFTER)
-- Shell Script (para deploy automatizado)
+Libridata solves this by providing a structured and scalable relational model.
 
 ---
 
-## 🚀 Como Executar Localmente (Arch Linux / Qualquer distro)
+## Features
+- Book catalog management
+- User management
+- Loan tracking (historical)
+- Fine calculation system
+- Category hierarchy
+- Analytical queries
+- Optimized indexing
 
-### 1. Instalar e configurar o MariaDB (MySQL)
+---
 
-```bash
-sudo pacman -S mariadb
-sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-sudo systemctl enable --now mariadb
-sudo mysql_secure_installation
+## Database Design
+
+### Core Entities
+- Users
+- Books
+- Authors
+- Categories
+- Loans
+- Fines
+
+---
+
+## Normalization
+The database is normalized up to **Third Normal Form (3NF)**:
+- No redundant data
+- Clear separation of concerns
+- Referential integrity enforced
+
+---
+
+## Key Design Decisions
+
+### 1. Historical Loan Tracking
+Loans are never overwritten.  
+Each transaction is stored permanently for analysis.
+
+### 2. Many-to-Many Relationships
+- Books ↔ Authors
+- Books ↔ Categories
+
+### 3. Fine System
+Fines are calculated based on delay and stored separately.
+
+---
+
+## Indexing Strategy
+
+Indexes are applied to:
+- Foreign keys
+- Frequently queried columns
+- Date-based filtering
+
+Example:
+```sql
+CREATE INDEX idx_loans_user_id ON loans(user_id);
+CREATE INDEX idx_loans_due_date ON loans(due_date);
