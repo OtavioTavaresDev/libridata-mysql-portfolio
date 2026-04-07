@@ -1,0 +1,12 @@
+# Arquivos de banco de dados locais
+*.sql~
+*.db
+*.sqlite3
+
+# Logs e backups
+*.log
+*.bak
+
+# Sistema
+.DS_Store
+Thumbs.db
